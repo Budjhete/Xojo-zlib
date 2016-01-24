@@ -42,6 +42,7 @@ Protected Module zlib
 		    bufferSize = 4*LenB(input)
 		  end if
 		  
+		  
 		  do
 		    soft declare function zlibuncompress lib zlibPath alias "uncompress" (dest as Ptr, ByRef destLen as UInt32, source as CString, sourceLen as Uint32) as Integer
 		    
@@ -58,6 +59,9 @@ Protected Module zlib
 		    end if
 		    
 		  loop
+		  
+		  Exception err as FunctionNotFoundException
+		    MsgBox err.message + "Error No.:" + str(err.ErrorNumber)
 		End Function
 	#tag EndMethod
 
@@ -101,6 +105,8 @@ Protected Module zlib
 		Error codes for zlibCompress:  Z_OK = no error, Z_MEM_ERROR = not enough memory, Z_BUF_ERROR = buffer too small.
 		
 		Error codes fror zlibUncompress: Z_OK = no error, Z_MEM_ERROR = not enough memory, Z_DATA_ERROR = corrupted data.
+		
+		Xojo 2015 change the Resource folder location on windows... make sur your zlib1.dll is reachable
 	#tag EndNote
 
 
@@ -126,7 +132,7 @@ Protected Module zlib
 
 	#tag Constant, Name = zlibPath, Type = String, Dynamic = False, Default = \"", Scope = Private
 		#Tag Instance, Platform = Mac OS, Language = Default, Definition  = \"/usr/lib/libz.dylib"
-		#Tag Instance, Platform = Windows, Language = Default, Definition  = \"ZLIB1.DLL"
+		#Tag Instance, Platform = Windows, Language = Default, Definition  = \"Libraries/zlib1.dll"
 		#Tag Instance, Platform = Linux, Language = Default, Definition  = \"/usr/lib/libz.so.1"
 	#tag EndConstant
 
