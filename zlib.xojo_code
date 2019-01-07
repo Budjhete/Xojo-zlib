@@ -1,5 +1,9 @@
 #tag Module
 Protected Module zlib
+	#tag ExternalMethod, Flags = &h21
+		Private Soft Declare Function e_uncompress Lib zlibPath Alias "uncompress" (Output As Ptr, ByRef OutLen As UInt64, Source As Cstring, SourceLen As UInt64) As Integer
+	#tag EndExternalMethod
+
 	#tag Method, Flags = &h0
 		Function Version() As String
 		  soft declare function zlibVersion lib zlibPath () as Ptr
@@ -44,11 +48,15 @@ Protected Module zlib
 		  
 		  
 		  do
-		    soft declare function zlibuncompress lib zlibPath alias "uncompress" (dest as Ptr, ByRef destLen as UInt32, source as CString, sourceLen as Uint32) as Integer
 		    
 		    dim m as new MemoryBlock(bufferSize)
-		    dim destLength as UInt32 = m.Size
-		    pLastErrorCode = zlibuncompress(m, destLength, input, LenB(input))
+		    dim destLength as UInt64 = m.Size
+		    Dim cs As CString = input
+		    
+		    'MsgBox "zlib : " + System.IsFunctionAvailable("zlibVersion", zlibPath).StringValue
+		    pLastErrorCode = e_uncompress(m, destLength, CS , LenB(input))
+		    
+		    
 		    
 		    if pLastErrorCode = 0 then
 		      return m.StringValue(0, destLength)
@@ -67,6 +75,7 @@ Protected Module zlib
 
 
 	#tag Note, Name = Documentation
+		
 		zlib
 		3/22/2007
 		charles@declareSub.com
@@ -156,6 +165,24 @@ Protected Module zlib
 
 	#tag Constant, Name = Z_VERSION_ERROR, Type = Double, Dynamic = False, Default = \"-6", Scope = Public
 	#tag EndConstant
+
+
+	#tag Structure, Name = z_stream, Flags = &h21, Attributes = \"StructureAlignment \x3D 1"
+		next_in as Ptr
+		  avail_in as UInt32
+		  total_in as UInt32
+		  next_out as Ptr
+		  avail_out as UInt32
+		  total_out as UInt32
+		  msg as Ptr
+		  internal_state as Ptr
+		  zalloc as Ptr
+		  zfree as Ptr
+		  opaque as Ptr
+		  data_type as Int32
+		  adler as UInt32
+		reserved as UInt32
+	#tag EndStructure
 
 
 	#tag ViewBehavior
