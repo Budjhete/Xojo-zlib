@@ -53,7 +53,7 @@ Protected Module zlib
 		    dim destLength as UInt64 = m.Size
 		    Dim cs As CString = input
 		    
-		    'MsgBox "zlib : " + System.IsFunctionAvailable("zlibVersion", zlibPath).StringValue
+		    'MsgBox "zlib : " +zlibPath + " " + System.IsFunctionAvailable("zlibVersion", zlibPath).StringValue
 		    pLastErrorCode = e_uncompress(m, destLength, CS , LenB(input))
 		    
 		    
@@ -116,6 +116,8 @@ Protected Module zlib
 		Error codes fror zlibUncompress: Z_OK = no error, Z_MEM_ERROR = not enough memory, Z_DATA_ERROR = corrupted data.
 		
 		Xojo 2015 change the Resource folder location on windows... make sur your zlib1.dll is reachable
+		
+		ZLIB 64Bit windows http://www.winimage.com/zLibDll/zlib123dllx64.zip
 	#tag EndNote
 
 
@@ -141,7 +143,7 @@ Protected Module zlib
 
 	#tag Constant, Name = zlibPath, Type = String, Dynamic = False, Default = \"", Scope = Private
 		#Tag Instance, Platform = Mac OS, Language = Default, Definition  = \"/usr/lib/libz.dylib"
-		#Tag Instance, Platform = Windows, Language = Default, Definition  = \"Libraries/zlib1.dll"
+		#Tag Instance, Platform = Windows, Language = Default, Definition  = \"zlibwapi.dll"
 		#Tag Instance, Platform = Linux, Language = Default, Definition  = \"/usr/lib/libz.so.1"
 	#tag EndConstant
 
