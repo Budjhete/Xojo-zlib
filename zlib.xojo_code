@@ -69,7 +69,7 @@ Protected Module zlib
 		  loop
 		  
 		  Exception err as FunctionNotFoundException
-		    MsgBox err.message + "Error No.:" + str(err.ErrorNumber)
+		    MessageBox err.message + "Error No.:" + str(err.ErrorNumber)
 		End Function
 	#tag EndMethod
 
